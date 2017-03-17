@@ -44,7 +44,7 @@
 		      }else if(data && data.type == 'rgba'){
 		      	var rgbaData = this.rgba();
 		      	this.result.push('rgb('+rgbaData.r.toFixed(0)+','+rgbaData.g.toFixed(0)+','+rgbaData.b.toFixed(0)+')')
-		      	this.result.push('#'+parseInt(rgbaData.r).toString(16)+parseInt(rgbaData.g).toString(16)+parseInt(rgbaData.b).toString(16))
+		      	this.result.push('#'+this.leftpad(parseInt(rgbaData.r).toString(16),2)+this.leftpad(parseInt(rgbaData.g).toString(16),2)+this.leftpad(parseInt(rgbaData.b).toString(16),2))
 		      }
 		    },
 		    getType: function(){
@@ -63,9 +63,9 @@
 		    	}else if(data = input.match(regRgb)){
 		    		return {
 		    			type:'rgb',
-		    			r:parseInt(data[1]).toString(16),
-		    			g:parseInt(data[2]).toString(16),
-		    			b:parseInt(data[3]).toString(16)
+		    			r:this.leftpad(parseInt(data[1]).toString(16),2),
+		    			g:this.leftpad(parseInt(data[2]).toString(16),2),
+		    			b:this.leftpad(parseInt(data[3]).toString(16),2)
 		    		}
 		    	}else if(data = input.match(regRgba)){
 		    		return {
@@ -79,7 +79,7 @@
 		    		return {}
 		    	}
 		    },
-		    rgba(){
+		    rgba:function(){
 		    	var data = this.data;
 		    	var bg = Number(this.bg);
 		    	return {
@@ -87,6 +87,11 @@
 		    		g:((1 - data.a) * bg) + (data.a * data.g),
 		    		b:((1 - data.a) * bg) + (data.a * data.b)
 		    	}
+		    },
+		    leftpad:function(val,minLength){
+		    	var MANY_ZEROS = "000000000000000000";
+				if (typeof(val) != "string") val = String(val);
+				return (MANY_ZEROS.substring(0, minLength - val.length)) + val;
 		    }
 		  }
 		})
